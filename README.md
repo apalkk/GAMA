@@ -20,6 +20,7 @@ All resources required for GAMA and GAMA-IT can be found in [this drive](https:/
 ### Setup 🏋️
 ```shell
 git clone https://github.com/apalkk/GAMA.git
+cd GAMA
 conda create -n gama python=3.10
 conda activate gama
 pip install -r requirements.txt
