@@ -186,7 +186,7 @@ def load_audio(filename):
 
 
 def main(
-    base_model: str = "/fs/nexus-projects/brain_project/Llama-2-7b-chat-hf-qformer",
+    base_model: str = "/fs/nexus-scratch/apalnitk/GAMA/Llama-2-7b-chat-hf-qformer",
     prompt_template: str = "alpaca_short",  # The prompt template to use, will default to alpaca.
 ):
     base_model = base_model or os.environ.get("BASE_MODEL", "")
@@ -213,7 +213,7 @@ def main(
     model = get_peft_model(model, config)
     temp, top_p, top_k = 0.1, 0.95, 500
     # change it to your model path
-    eval_mdl_path = '/fs/gamma-projects/audio/gama/new_data/stage5/checkpoint-2500/pytorch_model.bin'
+    eval_mdl_path = '/fs/nexus-scratch/apalnitk/GAMA/checkpoint-1100/pytorch_model.bin'
     state_dict = torch.load(eval_mdl_path, map_location='cpu')
     msg = model.load_state_dict(state_dict, strict=False)
 
@@ -226,7 +226,7 @@ def main(
     model.config.eos_token_id = 2
 
     model.eval()
-    file = open('/fs/nexus-projects/brain_project/acl_sk_24/GAMA_Benchmark_new.json','r')
+    file = open('/fs/nexus-scratch/apalnitk/GAMA/new.json','r')
     file = json.load(file)
     res = []
     for i in tqdm(file):
