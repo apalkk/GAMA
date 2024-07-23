@@ -54,7 +54,7 @@ def get_mel(audio_data):
             f_min=50,
             f_max=14000
     ).to(audio_data.device)
-        
+
     mel = mel_tf(audio_data)
 
         # we use log mel spectrogram as input
@@ -161,7 +161,7 @@ def get_audio_features(sample, audio_data, max_len, data_truncating, data_fillin
         return sample
 
 
-    
+
 def load_audio(filename):
     waveform, sr = torchaudio.load(filename)
     if sr != 16000:
@@ -186,7 +186,7 @@ def load_audio(filename):
 
 
 def main(
-    base_model: str = "/fs/nexus-scratch/apalnitk/GAMA/Llama-2-7b-chat-hf-qformer",
+    base_model: str = "/fs/nexus-scratch/apalnitk/GAMA/Llama-2-7b-chat-hf-qformer/Llama-2-7b-chat-hf-qformer/",
     prompt_template: str = "alpaca_short",  # The prompt template to use, will default to alpaca.
 ):
     base_model = base_model or os.environ.get("BASE_MODEL", "")
@@ -195,10 +195,10 @@ def main(
     ), "Please specify a --base_model, e.g. --base_model='huggyllama/llama-7b'"
 
     prompter = Prompter(prompt_template)
-    tokenizer = LlamaTokenizer.from_pretrained(base_model)
+    tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
 
     # model = LlamaForCausalLM.from_pretrained(base_model, device_map="auto")
-    model = LlamaForCausalLM.from_pretrained(base_model, device_map="auto") #, torch_dtype=torch.bfloat16
+    model = LlamaForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", device_map="auto") #, torch_dtype=torch.bfloat16
 
 
     config = LoraConfig(
@@ -213,7 +213,7 @@ def main(
     model = get_peft_model(model, config)
     temp, top_p, top_k = 0.1, 0.95, 500
     # change it to your model path
-    eval_mdl_path = '/fs/nexus-scratch/apalnitk/GAMA/checkpoint-1100/pytorch_model.bin'
+    eval_mdl_path = '/fs/nexus-scratch/apalnitk/GAMA/checkpoint-2500/pytorch_model.bin'
     state_dict = torch.load(eval_mdl_path, map_location='cpu')
     msg = model.load_state_dict(state_dict, strict=False)
 
